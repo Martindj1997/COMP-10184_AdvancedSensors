@@ -20,6 +20,8 @@ OneWire oneWire(oneWireBus);
 // Pass our oneWire reference to Dallas Temperature sensor
 DallasTemperature DS18B20(&oneWire);
 
+bool tempSensConnected = true;
+
 void setup()
 {
   // configure the USB serial monitor
@@ -38,6 +40,7 @@ void setup()
     Serial.print("Temperature sensor DS18B20 with address fetched of: ");
   }else{
     Serial.println("*** No DS18B20 Temperature sensors are installed ***");
+    tempSensConnected = false;
     return;
   }
 
@@ -52,6 +55,11 @@ void setup()
 
 void loop()
 {
+
+  if (!tempSensConnected){
+    return;
+  }
+
   float fTemp;
 
   // ask DS18B20 for the current temperature
